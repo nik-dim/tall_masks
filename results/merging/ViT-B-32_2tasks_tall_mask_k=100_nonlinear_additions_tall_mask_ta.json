@@ -1,0 +1,30 @@
+{
+    "test": {
+        "Cars:top1": 0.7620942668822286,
+        "DTD:top1": 0.9776595744680852,
+        "Cars:normalized_top1": 0.9747097184666773,
+        "DTD:normalized_top1": 0.997828447339848,
+        "avg_normalized_top1": 0.9862690829032627,
+        "avg_top1": 0.8698769206751569
+    },
+    "val": {
+        "loaded_mask": {
+            "CarsVal:top1": 0.7506142506142506,
+            "DTDVal:top1": 0.7925531914893617,
+            "CarsVal:normalized_top1": 0.9622047244094488,
+            "DTDVal:normalized_top1": 1.0090293453724604,
+            "avg_normalized_top1": 0.9856170348909545,
+            "avg_top1": 0.7715837210518062
+        }
+    },
+    "val_best": {
+        "loaded_mask": {
+            "CarsVal:top1": 0.7506142506142506,
+            "DTDVal:top1": 0.7925531914893617,
+            "CarsVal:normalized_top1": 0.9622047244094488,
+            "DTDVal:normalized_top1": 1.0090293453724604,
+            "avg_normalized_top1": 0.9856170348909545,
+            "avg_top1": 0.7715837210518062
+        }
+    }
+}
