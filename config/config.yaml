@@ -17,8 +17,8 @@ port: 12355
 n_eval_points: 21
 device: "cuda"
 batch_size: 128
-data_location: "data"
-model_location: "model_dir"
+data_location: "/home/gortiz/data"
+model_location: "models/checkpoints"
 
 wandb:
   project: task-vectors

@@ -9,7 +9,7 @@ from omegaconf import open_dict
 from src.eval.eval import evaluate_task_vector, evaluate_task_vector_at_coef
 from src.utils.tallmask_utils import find_optimal_mask
 from src.utils.utils import find_optimal_coef
-from src.utils.variables_and_paths import get_finetuned_path, get_zeroshot_path
+from src.utils.variables_and_paths import get_finetuned_path, get_zeroshot_path, get_single_task_accuracies_path
 
 
 def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
@@ -19,18 +19,16 @@ def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
     with open_dict(args):
         args.save_dir = os.path.join(args.model_location, args.model)
 
-    ft_accuracies_path = os.path.join(args.save_dir, f"nonlinear_ft_accuracies.json")
+    ft_accuracies_path = get_single_task_accuracies_path(args.model)
     pretrained_checkpoint = get_zeroshot_path(args.model_location, "MNIST", args.model)
 
-    with open(ft_accuracies_path) as f:
-        with open_dict(args):
-            args.finetuning_accuracies = json.load(f)
-
     with open_dict(args):
+        with open(ft_accuracies_path) as f:
+            args.finetuning_accuracies = json.load(f)
         args.eval_datasets = args.DATASETS_VAL
         args.control_dataset = None
 
-    # Get validation metrics
+    # evaluate on validation set
     val_metrics = evaluate_task_vector(task_vector, pretrained_checkpoint, args, eval_masks=eval_masks)
 
     if args.method.name == "tall_mask":
@@ -43,7 +41,7 @@ def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
     elif args.method.name == "mag_masking":
         best_masks_for_test = eval_masks
     else:
-        # find scaling factor alpha
+        # find scaling factor alpha based on validation accuracy (for Task Arithmetic, TIES, Consensus Merging)
         optimal_coef = find_optimal_coef(val_metrics, metric="avg_normalized_top1", minimize=False)
     print("\n" * 2)
 
@@ -51,13 +49,13 @@ def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
     with open_dict(args):
         args.eval_datasets = args.DATASETS
 
-    if args.method.name == "tall_mask":
+    if args.method.name in ["tall_mask", "mag_masking"]:
         test_metrics = evaluate_task_vector_at_coef(
             task_vector,
             pretrained_checkpoint,
             args,
             1.0,
-            eval_masks=best_masks_for_test,
+            eval_masks=best_masks_for_test
         )
     else:
         test_metrics = evaluate_task_vector_at_coef(
@@ -65,7 +63,7 @@ def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
             pretrained_checkpoint,
             args,
             float(optimal_coef),
-            eval_masks=None,
+            eval_masks=None
         )
 
     print("=" * 100)

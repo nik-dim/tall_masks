@@ -46,5 +46,5 @@ def get_finetuned_path(root, dataset, model):
     return Path(root, model, cleanup_dataset_name(dataset), f"nonlinear_finetuned.pt").as_posix()
 
 
-def get_single_task_accuracies_path(root, model):
-    return Path(root, model, f"nonlinear_accuracies.json").as_posix()
+def get_single_task_accuracies_path(model):
+    return Path("results", model, f"nonlinear_ft_accuracies.json").as_posix()
