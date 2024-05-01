@@ -1,0 +1,7 @@
+name: tall_mask
+k: 100
+use_ties: false
+ties_agg: "sum"
+load_mask: false
+
+full_name: ${method.name}_k=${method.k}

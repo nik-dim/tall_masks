@@ -1,0 +1,7 @@
+name: consensus
+k: 100
+prun_thre_k: 2
+use_ties: false
+ties_agg: "sum"
+
+full_name: ${method.name}_k=${method.k}

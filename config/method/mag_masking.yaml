@@ -1,0 +1,4 @@
+name: mag_masking
+k: 10
+
+full_name: ${method.name}_k=${method.k}
