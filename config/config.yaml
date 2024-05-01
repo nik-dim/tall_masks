@@ -1,0 +1,33 @@
+# @package _global_
+defaults:
+- _self_
+- method: sum
+
+model: ViT-B-32
+num_tasks: 8
+specify_lambda: None
+
+DATASETS: ''
+DATASETS_VAL: ''
+
+# utilities
+cache_dir: None
+world_size: 1
+port: 12355
+n_eval_points: 21
+device: "cuda"
+batch_size: 128
+data_location: "/home/gortiz/data"
+model_location: "/home/kewang/mount/checkpoints"
+
+wandb:
+  project: task-vectors
+  mode: online
+  group: ${model}
+
+hydra:
+  run:
+    dir: ./logs/${model}/${method.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+  sweep:
+    dir: ./logs/multirun/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    subdir: ${hydra.job.num}

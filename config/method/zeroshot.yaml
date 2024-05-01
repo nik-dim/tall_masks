@@ -1,0 +1,4 @@
+name: zeroshot
+k: 100
+
+full_name: ${method.name}_k=${method.k}

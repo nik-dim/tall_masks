@@ -1,0 +1,7 @@
+{
+    "files.watcherExclude": {
+        "**/logs/**": true,
+        "**wandb/**": true,
+        "logs/": true
+    }
+}
