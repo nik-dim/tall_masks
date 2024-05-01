@@ -9,7 +9,6 @@ from src.eval.eval_utils import perform_eval_with_merged_vector
 from src.utils.variables_and_paths import ALL_DATASETS
 
 
-# TODO(ke): remove anything to do with other ft methods, remove related args as well
 @hydra.main(config_path="config", config_name="config", version_base="1.3")
 def my_app(cfg: DictConfig) -> None:
 
