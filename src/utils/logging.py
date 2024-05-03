@@ -37,7 +37,7 @@ def log_results(final_results, args):
         mask_suffix = "mag_mask"
     elif args.method.name == "consensus":
         mask_suffix = (
-            f"k_{args.method.mask_agree_k}_ties" if args.method.use_ties else f"k_{args.method.mask_agree_k}_ta"
+            f"k_{args.method.prun_thre_k}_ties" if args.method.use_ties else f"k_{args.method.prun_thre_k}_ta"
         )
     else:
         mask_suffix = ""

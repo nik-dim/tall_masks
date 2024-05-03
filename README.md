@@ -61,10 +61,10 @@ python main.py model=ViT-B-32 method="tall_mask" method.use_ties=True method.tie
 ##### Evaluate with Consensus Merging (after constructing TALL masks):
 ``` bash
 # Evaluate with Consensus Task Arithmetic
-python main.py model=ViT-B-32 method="consensus" method.mask_agree_k=2
+python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2
 
 # Evaluate with Consensus Ties-merging
-python main.py model=ViT-B-32 method="consensus" method.mask_agree_k=2 method.use_ties=True
+python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2 method.use_ties=True
 ```
 
 Note that you can set different number of tasks by setting `num_tasks`.

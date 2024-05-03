@@ -213,13 +213,14 @@ def construct_consensus_mask(ptm_check, prun_thre_k, config, remove_keys=[]):
     print("==== Generating Consensus Mask ====")
     # load TALL masks (in shape (n_task, n_parameter))
     tall_masks = load_tall_mask(remove_keys, ptm_check, config)
+    tall_masks = list(tall_masks.values())
 
     # generate consensus masks
-    consensus_mask = copy.deepcopy(all_masks[0])
+    consensus_mask = copy.deepcopy(tall_masks[0])
     for key, value in consensus_mask.items():
         consensus_mask[key] = torch.zeros_like(value)
         # count for each parameter, the tasks it has been activated for
-        for mask in all_masks:
+        for mask in tall_masks:
             consensus_mask[key] = consensus_mask[key] + mask[key].float()
         # filter out the least-activated parameters based on given threshold
         consensus_mask[key] = consensus_mask[key].float() >= prun_thre_k 

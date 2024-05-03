@@ -123,7 +123,7 @@ def create_task_vector(config: DictConfig) -> Tuple[torch.Tensor, Optional[Dict[
             )
     elif config.method.name == "consensus":  # consensus merging
         # construct consensus mask
-        consensus_mask = construct_consensus_mask(ptm_check, prun_thre_k, config, remove_keys)
+        consensus_mask = construct_consensus_mask(ptm_check, config.method.prun_thre_k, config, remove_keys)
         # construct multi-task vector
         if config.method.use_ties:
             merged_tv = ties_merging(tv_flat_checks, reset_thresh=20, merge_func="dis-sum")
