@@ -162,5 +162,5 @@ cython_debug/
 #.idea/
 wandb
 logs
-temp/
-src/plotting/media
+checkpoints
+tall_masks

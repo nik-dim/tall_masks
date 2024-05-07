@@ -1,13 +1,14 @@
-import os
 import copy
+import os
 from typing import List, Optional
 
+import numpy as np
 import torch
 import wandb
-import numpy as np
 
 from .utils import state_dict_to_vector, vector_to_state_dict
 from .variables_and_paths import ALL_DATASETS
+
 
 def log_wandb_mask_sparsity(final_mask: torch.Tensor):
     """
@@ -22,6 +23,7 @@ def log_wandb_mask_sparsity(final_mask: torch.Tensor):
         dataset = ALL_DATASETS[i]
         wandb.log({f"mask_sparsity_{dataset}": dataset_sparsities[i]})
 
+
 def generate_task_masks(
     tv_flat_checks: torch.Tensor,
     flat_ft: torch.Tensor,
@@ -29,8 +31,8 @@ def generate_task_masks(
     tv: Optional[torch.Tensor] = None,
     tall_mask_lambda: float = 1.0,
 ) -> torch.Tensor:
-    """ 
-    Generate task-specific TALL masks 
+    """
+    Generate task-specific TALL masks
     TALL masks are generated as: mask_t = |theta_0 - theta_t| > |theta_mt - theta_t| * lambda
 
     Args:
@@ -78,9 +80,9 @@ def construct_tall_mask(
     remove_keys: List[str],
     config,
 ):
-    """ 
-    Construct TALL masks for all tasks for each lambda, and store in dictionary 
-    
+    """
+    Construct TALL masks for all tasks for each lambda, and store in dictionary
+
     Args:
         tv_flat_checks: individual task vectors
         flat_ft: individual theta_t (fine-tuned weights)
@@ -111,7 +113,7 @@ def find_optimal_mask(val_metrics, eval_masks, args, save_masks=True):
     Args:
         val_metrics: validation metrics for each lambda
         eval_masks: all generated masks
-        
+
     Returns:
         best_masks_for_test: the best masks for each task, selected based on validation accuracy from each task
         best_val_metrics: best validation metrics for each task
@@ -143,44 +145,38 @@ def find_optimal_mask(val_metrics, eval_masks, args, save_masks=True):
         # save the best validation metric based on the selected lambda
         best_val_metrics[ds + "Val:top1"] = val_metrics[best_lambda][ds + "Val:top1"]
 
-
     # save the best masks in disk
     if save_masks and not args.method.load_mask:
-        # conver to numpy to save with np.packbits for saving storage
+        # convert to numpy to save with np.packbits for saving storage
         best_masks_for_test_vector = {k: np.packbits(v) for k, v in best_masks_for_test_vector.items()}
-        mask_save_dir = config.model_location.replace("checkpoints", "tall_masks")
+        mask_save_dir = args.model_location.replace("checkpoints", "tall_masks")
         mask_name = (
             f"TALL_mask_{args.num_tasks}task.npy"
             if not args.method.use_ties
             else f"TALL_mask_{args.num_tasks}task_use_ties_{args.method.ties_agg}.npy"
         )
-        np.save(
-            best_masks_for_test_vector,
-            os.path.join(mask_save_dir, args.model, mask_name)
-        )
+        np.save(best_masks_for_test_vector, os.path.join(mask_save_dir, args.model, mask_name))
         del best_masks_for_test_vector
 
     return best_masks_for_test, best_val_metrics
 
 
 def load_tall_mask(remove_keys, ptm_check, config):
-    """ Loads TALL masks from disk, unpack and transform to state dictionaries. """
+    """Loads TALL masks from disk, unpack and transform to state dictionaries."""
     mask_location = config.model_location.replace("checkpoints", "tall_masks")
     try:
         if config.method.use_ties:
             print("==== Loading TALL Masks built with TIES ====")
             tall_masks = torch.load(
                 os.path.join(
-                    mask_location, config.model, f"TALL_mask_{config.num_tasks}task_use_ties.npy",
+                    mask_location,
+                    config.model,
+                    f"TALL_mask_{config.num_tasks}task_use_ties.npy",
                 )
             )
         else:
             print("==== Loading TALL Masks built with Task Arithmetic ====")
-            tall_masks = torch.load(
-                os.path.join(
-                    mask_location, config.model, f"TALL_mask_{config.num_tasks}task.npy"
-                )
-            )
+            tall_masks = torch.load(os.path.join(mask_location, config.model, f"TALL_mask_{config.num_tasks}task.npy"))
     except:
         raise Exception("TALL Masks are not constructed yet.")
 
@@ -197,7 +193,7 @@ def load_tall_mask(remove_keys, ptm_check, config):
 
 def construct_consensus_mask(ptm_check, prun_thre_k, config, remove_keys=[]):
     """
-    Generate consensus mask by filtering out least-used parameters 
+    Generate consensus mask by filtering out least-used parameters
 
     Args:
         ptm_check: pretrained_checkpoint as state dictionary
@@ -223,7 +219,7 @@ def construct_consensus_mask(ptm_check, prun_thre_k, config, remove_keys=[]):
         for mask in tall_masks:
             consensus_mask[key] = consensus_mask[key] + mask[key].float()
         # filter out the least-activated parameters based on given threshold
-        consensus_mask[key] = consensus_mask[key].float() >= prun_thre_k 
+        consensus_mask[key] = consensus_mask[key].float() >= prun_thre_k
     consensus_mask_vector = state_dict_to_vector(consensus_mask, remove_keys=remove_keys)
 
     return consensus_mask_vector

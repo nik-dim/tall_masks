@@ -18,10 +18,18 @@ conda activate tall-masks
 ```
 
 ## Checkpoints
-We provide the checkpoints, as well as the generated task-specific masks we used in the paper in [this link](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing).
+We provide the checkpoints, as well as the generated task-specific masks we used in the paper in [this link](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing). Alternatively, you can download the checkpoints and masks by running the following script:
+```sh
+# model options --model {ViT-B-32,ViT-B-16,ViT-L-14} 
+# kind options --kind {checkpoints,tall_masks}
+# use python download_checkpoints.py --help for more information
+python download_checkpoints.py --model='ViT-B-16' --kind=checkpoints
+```
+
+The script downloads *all* the checkpoints for one model corresponding to 41 files (finetuned checkpoint and classification head for 20 tasks + zeroshot model). The script used the `gdown` package to download the files. If you encounter any issues, please refer to the [gdown documentation](https://github.com/wkentaro/gdown?tab=readme-ov-file#faq). A common issue is that the download quota is exceeded, in which case you can download the files manually from the [Google Drive folder](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing) or modify your local cookies file as described in the gdown documentation.
 
 ## Datasets
-Most datasets being used should be downloaded automatically with torchvision or huggingface. For the datasets requiring manual preparation, please follow the instructions in [this issue](https://github.com/mlfoundations/task_vectors/issues/1).
+Most datasets being used should be downloaded automatically with torchvision or huggingface. For the datasets requiring manual preparation, please follow the instructions in [this issue](https://github.com/mlfoundations/task_vectors/issues/1). Depending on the torchvision version, some issues might arise when downloading specific datasets like [here](https://github.com/basveeling/pcam/issues/4) or [here](https://github.com/pytorch/vision/issues/5662). In this case, using a different torchvision version might solve the issue. 
 
 ## Finetuning
 The script `finetune.py` can be used to reproduce the training protocol we used to fine-tune our models on all our downstream tasks.
@@ -34,7 +42,7 @@ python finetune.py --model=ViT-B-32 --world-size=2
 
 ### Model merging evaluation
 
-Evaluation is performed with Hydra, please modify `model_location` and `data_location` in `config/config.yaml` before evaluation.
+Evaluation is performed with Hydra, please modify `model_location` and `data_location` in `config/config.yaml` before evaluation. 
 
 ##### Evaluate with baseline model merging methods:
 ```bash
@@ -67,7 +75,7 @@ python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2
 python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2 method.use_ties=True
 ```
 
-Note that you can set different number of tasks by setting `num_tasks`.
+Note that you can set different number of tasks by setting `num_tasks`. Then, the first `num_tasks` are going to be selected from the list defined in `src/utils/variables_and_paths.py`. Alternatively, you can directly specify the tasks as a list of strings. The results of the papers can be retrived by setting `num_tasks` to 8, 14 and 20 for the corresponding experiments.
 
 ### Single-task evaluation
 You can evaluate the performance of the fine-tuned weights on each single task by running

@@ -1,3 +1,4 @@
+import os
 from pprint import pprint
 
 import hydra
@@ -15,7 +16,7 @@ def my_app(cfg: DictConfig) -> None:
     if cfg.DATASETS == "":
         cfg.DATASETS = ALL_DATASETS[: cfg.num_tasks]
     cfg.DATASETS_VAL = [dataset + "Val" for dataset in cfg.DATASETS]
-
+    cfg.data_location = os.path.expanduser(cfg.data_location)
     OmegaConf.set_struct(cfg, True)
 
     # set up experiment for WandB

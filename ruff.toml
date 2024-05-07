@@ -1,4 +1,0 @@
-line-length = 100
-select = ["B","E","F","W","A","I"]
-ignore = ["B905"]
-fix = true
