@@ -33,7 +33,7 @@ Most datasets being used should be downloaded automatically with torchvision or 
 
 
 ## Localizing Task Information with TALL Masks
-Below gives an example of psudo-code to use TALL mask to localize the information in multi-task vector to reconstruct the individual checkpoints.
+Below gives an example of pseudo-code to use TALL mask to localize the information in multi-task vector to reconstruct the individual checkpoints.
 
 To create a task vector, you will need a pre-trained checkpoint and a fine-tuned checkpoint:
 ```
@@ -47,7 +47,7 @@ multi_task_vector = task_vector_A + task_vector_B + task_vector_C
 ```
 Construct tall mask:
 ```
-tall_mask_A = |task_vector_A| > |multi_task_vector - task_vector_A| * lambda
+tall_mask_A = task_vector_A.abs() > (multi_task_vector - task_vector_A).abs() * lambda
 ```
 Reconstruct fine-tuned model with tall mask:
 ```
