@@ -31,6 +31,29 @@ The script downloads *all* the checkpoints for one model corresponding to 41 fil
 ## Datasets
 Most datasets being used should be downloaded automatically with torchvision or huggingface. For the datasets requiring manual preparation, please follow the instructions in [this issue](https://github.com/mlfoundations/task_vectors/issues/1). Depending on the torchvision version, some issues might arise when downloading specific datasets like [here](https://github.com/basveeling/pcam/issues/4) or [here](https://github.com/pytorch/vision/issues/5662). In this case, using a different torchvision version might solve the issue. 
 
+
+## Localizing Task Information with TALL Masks
+Below gives an example of psudo-code to use TALL mask to localize the information in multi-task vector to reconstruct the individual checkpoints.
+
+To create a task vector, you will need a pre-trained checkpoint and a fine-tuned checkpoint:
+```
+from task_vectors import TaskVector
+task_vector_A = TaskVector(pretrained_checkpoint, finetuned_checkpoint_A)
+```
+
+Create a multi-task vector:
+```
+multi_task_vector = task_vector_A + task_vector_B + task_vector_C
+```
+Construct tall mask:
+```
+tall_mask_A = |task_vector_A| > |multi_task_vector - task_vector_A| * lambda
+```
+Reconstruct fine-tuned model with tall mask:
+```
+# the reconstructed finetuned_checkpoint_A has near the same performance as original finetuned_checkpoint_A
+reconstructed_finetuned_checkpoint_A = pretrained_checkpoint + multi_task_vector * tall_mask_A
+```
 ## Finetuning
 The script `finetune.py` can be used to reproduce the training protocol we used to fine-tune our models on all our downstream tasks.
 ```sh 
