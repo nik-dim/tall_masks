@@ -37,21 +37,20 @@ Most datasets being used should be downloaded automatically with torchvision or 
 Below gives an example of pseudo-code to use TALL mask to localize the information in multi-task vector to reconstruct the individual checkpoints.
 
 To create a task vector, you will need a pre-trained checkpoint and a fine-tuned checkpoint:
-``` bash
+```python
 from task_vectors import TaskVector
 task_vector_A = TaskVector(pretrained_checkpoint, finetuned_checkpoint_A)
 ```
-
 Create a multi-task vector:
-```bash
+```python
 multi_task_vector = task_vector_A + task_vector_B + task_vector_C
 ```
 Construct tall mask:
-```bash
+```python
 tall_mask_A = task_vector_A.abs() > (multi_task_vector - task_vector_A).abs() * lambda
 ```
 Reconstruct fine-tuned model with tall mask:
-```bash
+```python
 # the reconstructed finetuned_checkpoint_A has near the same performance as original finetuned_checkpoint_A
 reconstructed_finetuned_checkpoint_A = pretrained_checkpoint + multi_task_vector * tall_mask_A
 ```
