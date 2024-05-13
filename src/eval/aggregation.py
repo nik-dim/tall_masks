@@ -106,7 +106,7 @@ def create_task_vector(config: DictConfig) -> Tuple[torch.Tensor, Optional[Dict[
         # construct multi-task vector
         if config.method.use_ties:
             print(f"Using TIES for constructing multi-task vector")
-            merged_tv = ties_merging(tv_flat_checks, reset_thresh=20, merge_func=f"dis-{config.method.ties_agg}")
+            merged_tv = ties_merging(tv_flat_checks, reset_thresh=20, merge_func=f"dis-sum")
         else:
             print(f"Using Task Arithmetic for constructing multi-task vector")
             tv_flat_checks, _ = topk_values_mask(tv_flat_checks, K=config.method.k, return_mask=False)
@@ -122,7 +122,7 @@ def create_task_vector(config: DictConfig) -> Tuple[torch.Tensor, Optional[Dict[
                 tv_flat_checks, flat_ft, flat_ptm, merged_tv, ptm_check, remove_keys, config
             )
     elif config.method.name == "consensus":  # consensus merging
-        # construct consensus mask
+        # construct consensus mask (assuming the TALL masks have already been constructed)
         consensus_mask = construct_consensus_mask(ptm_check, config.method.prun_thre_k, config, remove_keys)
         # construct multi-task vector
         if config.method.use_ties:

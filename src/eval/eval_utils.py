@@ -54,19 +54,11 @@ def perform_eval_with_merged_vector(args, task_vector, eval_masks=None):
 
     if args.method.name in ["tall_mask", "mag_masking"]:
         test_metrics = evaluate_task_vector_at_coef(
-            task_vector,
-            pretrained_checkpoint,
-            args,
-            1.0,
-            eval_masks=best_masks_for_test
+            task_vector, pretrained_checkpoint, args, 1.0, eval_masks=best_masks_for_test
         )
     else:
         test_metrics = evaluate_task_vector_at_coef(
-            task_vector,
-            pretrained_checkpoint,
-            args,
-            float(optimal_coef),
-            eval_masks=None
+            task_vector, pretrained_checkpoint, args, float(optimal_coef), eval_masks=None
         )
 
     print("=" * 100)

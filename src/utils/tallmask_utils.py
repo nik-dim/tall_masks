@@ -17,6 +17,7 @@ def log_wandb_mask_sparsity(final_mask: torch.Tensor):
     Args:
         final_mask (torch.Tensor): The final mask tensor.
     """
+    wandb.log({"mask_sparsity_all_tasks": final_mask.float().mean()})
     dataset_sparsities = final_mask.float().mean(1)
 
     for i in range(len(final_mask)):
@@ -65,7 +66,6 @@ def generate_task_masks(
     print(
         f"Average sparsity for the mask with tall_mask_lambda of {tall_mask_lambda}: {final_mask.float().mean():.4f}"
     )
-    wandb.log({"mask_sparsity_all_tasks": final_mask.float().mean()})
     log_wandb_mask_sparsity(final_mask)
 
     return final_mask

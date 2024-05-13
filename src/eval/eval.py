@@ -112,11 +112,7 @@ def evaluate_task_vector(task_vector, pretrained_checkpoint, args, eval_masks=No
         if args.method.load_mask:
             print("=" * 43, f"Evaluating the loaded TALL masks", "=" * 43)
             info["loaded_mask"] = evaluate_task_vector_at_coef(
-                task_vector,
-                pretrained_checkpoint,
-                args,
-                1.0,
-                eval_masks,
+                task_vector, pretrained_checkpoint, args, 1.0, eval_masks,
             )
             print(
                 "\t avg_normalized_top1: {}%\t avg_top1: {}%".format(
@@ -129,11 +125,7 @@ def evaluate_task_vector(task_vector, pretrained_checkpoint, args, eval_masks=No
                 print("\n" * 2)
                 print("=" * 43, f"tall_mask_lambda = {tall_mask_lambda:.2f}", "=" * 43)
                 info[tall_mask_lambda] = evaluate_task_vector_at_coef(
-                    task_vector,
-                    pretrained_checkpoint,
-                    args,
-                    1.0,
-                    eval_masks[tall_mask_lambda],
+                    task_vector, pretrained_checkpoint, args, 1.0, eval_masks[tall_mask_lambda],
                 )
                 print(
                     "\t avg_normalized_top1: {}%\t avg_top1: {}%".format(
