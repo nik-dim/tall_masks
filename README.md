@@ -98,7 +98,7 @@ python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2
 python main.py model=ViT-B-32 method="consensus" method.prun_thre_k=2 method.use_ties=True
 ```
 
-Note that you can set different number of tasks by setting `num_tasks`. Then, the first `num_tasks` are going to be selected from the list defined in `src/utils/variables_and_paths.py`. Alternatively, you can directly specify the tasks as a list of strings. The results of the papers can be retrived by setting `num_tasks` to 8, 14 and 20 for the corresponding experiments.
+Note that you can set different number of tasks by setting `num_tasks`. Then, the first `num_tasks` are going to be selected from the list defined in `src/utils/variables_and_paths.py`. Alternatively, you can directly specify the tasks as a list of strings (e.g. `DATASETS=[MNIST,Cars]`). The results of the papers can be retrived by setting `num_tasks` to 8, 14 and 20 for the corresponding experiments.
 
 ### Single-task evaluation
 You can evaluate the performance of the fine-tuned weights on each single task by running
