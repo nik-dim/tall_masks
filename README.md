@@ -84,10 +84,10 @@ python main.py model=ViT-B-32 method="tall_mask" method.load_mask=True
 python main.py model=ViT-B-32 method="tall_mask"
 
 # Evaluate with Tall mask + Ties-merging (load tall masks from storage)
-python main.py model=ViT-B-32 method="tall_mask" method.use_ties=True method.ties_agg="sum" method.load_mask=True
+python main.py model=ViT-B-32 method="tall_mask" method.use_ties=True method.load_mask=True
 
 # Evaluate with Tall mask + Ties-merging (construct tall masks from scratch)
-python main.py model=ViT-B-32 method="tall_mask" method.use_ties=True method.ties_agg="sum"
+python main.py model=ViT-B-32 method="tall_mask" method.use_ties=True 
 ```
 ##### Evaluate with Consensus Merging (after constructing TALL masks):
 ``` bash

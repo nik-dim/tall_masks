@@ -62,7 +62,7 @@ def evaluate(pretrained_checkpoint, task_vector, args, scaling_coef, eval_masks=
             # remove "Val" from dataset_name
             mask = eval_masks[dataset_name[:-3]] if "Val" in dataset_name else eval_masks[dataset_name]
             # apply mask to sparsify the task vectors with Hadamard product
-            sparse_task_vector = {k: sparse_task_vector.vector[k] * mask[k].bool().cpu() for k in mask.keys()}
+            sparse_task_vector.vector = {k: sparse_task_vector.vector[k] * mask[k].bool().cpu() for k in mask.keys()}
             # reconstruct theta_t^
             image_encoder = sparse_task_vector.apply_to(pretrained_checkpoint, scaling_coef=1.0)
 

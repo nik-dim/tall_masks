@@ -153,7 +153,7 @@ def find_optimal_mask(val_metrics, eval_masks, args, save_masks=True):
         mask_name = (
             f"TALL_mask_{args.num_tasks}task.npy"
             if not args.method.use_ties
-            else f"TALL_mask_{args.num_tasks}task_use_ties_{args.method.ties_agg}.npy"
+            else f"TALL_mask_{args.num_tasks}task_use_ties.npy"
         )
         np.save(best_masks_for_test_vector, os.path.join(mask_save_dir, args.model, mask_name))
         del best_masks_for_test_vector
@@ -169,14 +169,16 @@ def load_tall_mask(remove_keys, ptm_check, config):
             print("==== Loading TALL Masks built with TIES ====")
             tall_masks = torch.load(
                 os.path.join(
-                    mask_location,
-                    config.model,
-                    f"TALL_mask_{config.num_tasks}task_use_ties.npy",
+                    mask_location, config.model, f"TALL_mask_{config.num_tasks}task_use_ties.npy"
                 )
             )
         else:
             print("==== Loading TALL Masks built with Task Arithmetic ====")
-            tall_masks = torch.load(os.path.join(mask_location, config.model, f"TALL_mask_{config.num_tasks}task.npy"))
+            tall_masks = torch.load(
+                os.path.join(
+                    mask_location, config.model, f"TALL_mask_{config.num_tasks}task.npy"
+                )
+            )
     except:
         raise Exception("TALL Masks are not constructed yet.")
 
