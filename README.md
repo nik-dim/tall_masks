@@ -1,11 +1,13 @@
 # TALL Masks
 
-This is the source code to reproduce the experiments for "[Localizing Task Information for Improved Model Merging and Compression](https://arxiv.org/abs/tbd)" by Ke Wang*, Nikolaos Dimitriadis*, Guillermo Ortiz-Jimenez, Francois Fleuret, and Pascal Frossard.
+This is the source code to reproduce the experiments for "[Localizing Task Information for Improved Model Merging and Compression](https://arxiv.org/abs/2405.07813)" by Ke Wang*, Nikolaos Dimitriadis*, Guillermo Ortiz-Jimenez, Francois Fleuret, and Pascal Frossard.
 
 Our paper identifies that the task-specific knowledge is preserved after mering, and proposed a method named TALL mask to localize them.
 Based on TALL mask, we proposed:
 1) a compression scheme which utilizes TALL mask to recover single-task fine-tuned performance for each task
 2) a merging algorithm which removes catastrophic and selfish weights to improve model merging performance
+
+You can also check more information on the [project website](https://tall-masks.github.io/).
 
 ![](figures/illustration.png)
 
@@ -115,8 +117,11 @@ The results are saved in the `results/` folder.
 ## Reference
 If you find this code useful, please cite the following paper:
 ```bibtex
-
-TBD
-
+@article{wang2024localizing,
+  title={Localizing Task Information for Improved Model Merging and Compression},
+  author={Wang, Ke and Dimitriadis, Nikolaos and Ortiz-Jimenez, Guillermo and Fleuret, Fran{\c{c}}ois and Frossard, Pascal},
+  journal={arXiv preprint arXiv:2405.07813},
+  year={2024}
+}
 ```
 
