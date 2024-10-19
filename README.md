@@ -117,10 +117,14 @@ The results are saved in the `results/` folder.
 ## Reference
 If you find this code useful, please cite the following paper:
 ```bibtex
-@article{wang2024localizing,
+@inproceedings{wang2024localizing,
   title={Localizing Task Information for Improved Model Merging and Compression},
-  author={Wang, Ke and Dimitriadis, Nikolaos and Ortiz-Jimenez, Guillermo and Fleuret, Fran{\c{c}}ois and Frossard, Pascal},
-  journal={arXiv preprint arXiv:2405.07813},
+  author={Wang, Ke and
+    Dimitriadis, Nikolaos and
+    Ortiz{-}Jim{\'{e}}nez, Guillermo and
+    Fleuret, Fran\c{c}ois and
+    Frossard, Pascal},
+  booktitle={International Conference on Machine Learning},
   year={2024}
 }
 ```
