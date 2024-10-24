@@ -30,6 +30,24 @@ python download_checkpoints.py --model='ViT-B-16' --kind=checkpoints
 
 The script downloads *all* the checkpoints for one model corresponding to 40 files (finetuned checkpoint and classification head for 20 tasks). The script used the `gdown` package to download the files. If you encounter any issues, please refer to the [gdown documentation](https://github.com/wkentaro/gdown?tab=readme-ov-file#faq). A common issue is that the download quota is exceeded, in which case you can download the files manually from the [Google Drive folder](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing) or modify your local cookies file as described in the gdown documentation.
 
+Alternatively, the checkpoints can be downloaded from the HuggingFace repo [`nik-dim/tall_masks`](https://huggingface.co/nik-dim/tall_masks). See the [`snapshot_download documentation`](https://huggingface.co/docs/huggingface_hub/v0.26.0/en/package_reference/file_download#huggingface_hub.snapshot_download) for more details.
+
+```sh
+from huggingface_hub import snapshot_download
+
+# download the ViT-B-32 checkpoints including backbone, classification heads and tall masks
+snapshot_download(repo_id="nik-dim/tall_masks", allow_patterns="*32*")
+
+# download the ViT-B-16 checkpoints including backbone, classification heads and tall masks
+snapshot_download(repo_id="nik-dim/tall_masks", allow_patterns="*16*")
+
+# download the ViT-L-14 checkpoints including backbone, classification heads and tall masks
+snapshot_download(repo_id="nik-dim/tall_masks", allow_patterns="*14*")
+
+# download everything
+snapshot_download(repo_id="nik-dim/tall_masks")
+```
+
 ## Datasets
 Most datasets being used should be downloaded automatically with torchvision or huggingface. For the datasets requiring manual preparation, please follow the instructions in [this issue](https://github.com/mlfoundations/task_vectors/issues/1). Depending on the torchvision version, some issues might arise when downloading specific datasets like [here](https://github.com/basveeling/pcam/issues/4) or [here](https://github.com/pytorch/vision/issues/5662). In this case, using a different torchvision version might solve the issue. 
 
