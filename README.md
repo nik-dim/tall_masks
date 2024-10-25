@@ -22,10 +22,10 @@ conda activate tall-masks
 ## Checkpoints
 We provide the checkpoints, as well as the generated task-specific masks we used in the paper in [this link](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing). Alternatively, you can download the checkpoints and masks by running the following script:
 ```sh
-# model options --model {ViT-B-32,ViT-B-16,ViT-L-14} 
+# model options --model {ViT-B-32,ViT-L-14} 
 # kind options --kind {checkpoints,tall_masks}
 # use python download_checkpoints.py --help for more information
-python download_checkpoints.py --model='ViT-B-16' --kind=checkpoints
+python download_checkpoints.py --model='ViT-B-32' --kind=checkpoints
 ```
 
 The script downloads *all* the checkpoints for one model corresponding to 40 files (finetuned checkpoint and classification head for 20 tasks). The script used the `gdown` package to download the files. If you encounter any issues, please refer to the [gdown documentation](https://github.com/wkentaro/gdown?tab=readme-ov-file#faq). A common issue is that the download quota is exceeded, in which case you can download the files manually from the [Google Drive folder](https://drive.google.com/drive/folders/15ParSng4d5xSdaWdBFsg1617zPXT8Dae?usp=sharing) or modify your local cookies file as described in the gdown documentation.
