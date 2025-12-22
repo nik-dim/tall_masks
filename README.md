@@ -11,6 +11,10 @@ You can also check more information on the [project website](https://tall-masks.
 
 ![](figures/illustration.png)
 
+## Updates
+
+Our new work "[LiNeS: Post-training Layer Scaling Prevents Forgetting and Enhances Model Merging](https://arxiv.org/abs/2410.17146)" is accepted ICLR 2025. Checkout the github repo from [LiNeS repo](https://github.com/wang-kee/LiNeS)!
+
 ## Dependencies
 
 To run the code, please install all its dependencies:
